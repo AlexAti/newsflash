@@ -1,6 +1,5 @@
-(ns newsflash.core)
+(ns newsflash.core
+  (:require [net.cgrand.enlive-html :as html]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn -main []
+  (println (html/select (html/html-resource (java.net.URL. "http://google.com")) [:title])))
