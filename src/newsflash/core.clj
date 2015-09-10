@@ -2,7 +2,11 @@
   (:require [clojure.java.shell :refer [sh]]
             [net.cgrand.enlive-html :as html]))
 
-(def ^:dynamic *sources* [["https://news.ycombinator.com" [:td.title :a] "EN"]])
+(def ^:dynamic *sources* [["https://news.ycombinator.com" [:td.title :a] "EN"]
+                          ["http://www.meneame.net" [ :h2 :a] "ES"]
+                          ["http://www.elmundo.es" [:article.noticia :header :h1 :a] "ES"]
+                          ["http://www.expansion.com" [:article.noticia :header :h1 :a] "ES"]
+                          ])
 
 (def ^:dynamic *readers* [["Mac OS X" "ES" ["say" "-v" "Monica"]]
                           ["Mac OS X" "EN" ["say" "-v" "Samantha"]]])
@@ -20,5 +24,6 @@
 
 (defn -main []
   (let [os (System/getProperty "os.name")]
-    (doseq [hd (grab-headlines (first *sources*))]
-      (read-aloud-headline hd os "EN"))))
+    (doseq [sc *sources*]
+      (doseq [hd (grab-headlines sc)]
+        (read-aloud-headline hd os (nth sc 2))))))
